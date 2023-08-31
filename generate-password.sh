@@ -17,8 +17,10 @@ case $choice in
         echo "Random Password: $RANDOM_PASSWORD"
         ;;
     2)
-        # Generate a password for JKS with supported special characters
-        JKS_PASSWORD=$(LC_ALL=C </dev/urandom tr -dc 'a-zA-Z0-9!@%^&*_-+=' | fold -w "$password_length" | head -n 1)
+        # Generate a password for JKS with one random special character
+        SPECIAL_CHAR=$(LC_ALL=C </dev/urandom tr -dc '!@%^&*_-+=' | fold -w 1 | head -n 1)
+        JKS_PASSWORD=$(LC_ALL=C </dev/urandom tr -dc 'a-zA-Z0-9' | fold -w "$((password_length - 1))" | head -n 1)
+        JKS_PASSWORD="$JKS_PASSWORD$SPECIAL_CHAR"
         echo "JKS Password: $JKS_PASSWORD"
         ;;
     *)
